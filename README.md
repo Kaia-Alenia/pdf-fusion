@@ -5,8 +5,8 @@
 
 [![Kotlin](https://img.shields.io/badge/kotlin-%237F52FF.svg?style=flat&logo=kotlin&logoColor=white)](https://kotlinlang.org)
 [![Android](https://img.shields.io/badge/Android-3DDC84?style=flat&logo=android&logoColor=white)](https://developer.android.com/)
-[![License: GPL v3](https://img.shields.io/github/license/aleniastudios/pdf-fusion)](https://github.com/aleniastudios/pdf-fusion/blob/main/LICENSE)
-[![GitHub Release](https://img.shields.io/github/v/release/aleniastudios/pdf-fusion)](https://github.com/aleniastudios/pdf-fusion/releases/latest)
+[![License: GPL v3](https://img.shields.io/github/license/Kaia-Alenia/pdf-fusion)](https://github.com/Kaia-Alenia/pdf-fusion/blob/main/LICENSE)
+[![GitHub Release](https://img.shields.io/github/v/release/Kaia-Alenia/pdf-fusion)](https://github.com/Kaia-Alenia/pdf-fusion/releases/latest)
 
 > Native, 100% Offline PDF and Image Merger for Android
 
