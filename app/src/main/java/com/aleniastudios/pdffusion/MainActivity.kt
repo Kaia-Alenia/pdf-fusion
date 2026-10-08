@@ -9,7 +9,13 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.aleniastudios.pdffusion.databinding.ActivityMainBinding
+import com.tom_roush.pdfbox.android.PDFBoxResourceLoader
 import java.io.OutputStream
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import android.view.View
 
 class MainActivity : AppCompatActivity() {
 
@@ -37,16 +43,21 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        
+        // Initialize PDFBox
+        PDFBoxResourceLoader.init(applicationContext)
+        
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         binding.btnSelectPdf.setOnClickListener {
-            selectPdfLauncher.launch(arrayOf("application/pdf"))
+            // Allow both PDFs and images
+            selectPdfLauncher.launch(arrayOf("application/pdf", "image/*"))
         }
 
         binding.btnMergePdf.setOnClickListener {
             if (pdfList.isNotEmpty()) {
-                savePdfLauncher.launch("Documentos_Unificados.pdf")
+                savePdfLauncher.launch(getString(R.string.default_merged_filename))
             }
         }
 
@@ -54,12 +65,33 @@ class MainActivity : AppCompatActivity() {
             pdfList.clear()
             updateUi()
         }
+
+        checkAndShowTutorial()
+    }
+
+    private fun checkAndShowTutorial() {
+        val prefs = getSharedPreferences("pdf_fusion_prefs", android.content.Context.MODE_PRIVATE)
+        val hasSeenTutorial = prefs.getBoolean("has_seen_tutorial", false)
+        if (!hasSeenTutorial) {
+            com.google.android.material.dialog.MaterialAlertDialogBuilder(this)
+                .setTitle(R.string.tutorial_title)
+                .setMessage(R.string.tutorial_desc)
+                .setPositiveButton(android.R.string.ok) { dialog, _ ->
+                    prefs.edit().putBoolean("has_seen_tutorial", true).apply()
+                    dialog.dismiss()
+                }
+                .setCancelable(false)
+                .show()
+        }
     }
 
     private fun addPdfFromUri(uri: Uri) {
-        var fileName = "Documento.pdf"
+        var fileName = getString(R.string.file_default_name)
         var fileSize = "0 KB"
         var pageCount = 0
+
+        val mimeType = contentResolver.getType(uri) ?: ""
+        val isImage = mimeType.startsWith("image/")
 
         contentResolver.query(uri, null, null, null, null)?.use { cursor ->
             val nameIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME)
@@ -70,19 +102,23 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        try {
-            val pfd: ParcelFileDescriptor? = contentResolver.openFileDescriptor(uri, "r")
-            if (pfd != null) {
-                val renderer = PdfRenderer(pfd)
-                pageCount = renderer.pageCount
-                renderer.close()
-                pfd.close()
+        if (isImage) {
+            pageCount = 1
+        } else {
+            try {
+                val pfd: ParcelFileDescriptor? = contentResolver.openFileDescriptor(uri, "r")
+                if (pfd != null) {
+                    val renderer = PdfRenderer(pfd)
+                    pageCount = renderer.pageCount
+                    renderer.close()
+                    pfd.close()
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
-        } catch (e: Exception) {
-            e.printStackTrace()
         }
 
-        val defaultSelection = if (fileName.lowercase().contains("estado de cuenta")) {
+        val defaultSelection = if (fileName.lowercase().contains("estado de cuenta") && !isImage) {
             PageSelection.FIRST_ONLY
         } else {
             PageSelection.ALL
@@ -102,7 +138,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun updateUi() {
-        binding.txtCount.text = "Archivos cargados: ${pdfList.size}"
+        binding.txtCount.text = getString(R.string.files_loaded_count, pdfList.size)
         binding.btnMergePdf.isEnabled = pdfList.isNotEmpty()
         binding.btnClearAll.isEnabled = pdfList.isNotEmpty()
         renderListSummary()
@@ -111,27 +147,42 @@ class MainActivity : AppCompatActivity() {
     private fun renderListSummary() {
         val sb = StringBuilder()
         pdfList.forEachIndexed { index, item ->
-            val pagesText = if (item.selection == PageSelection.FIRST_ONLY) "Solo pág 1" else "Todas (${item.totalPages} págs)"
+            val pagesText = if (item.selection == PageSelection.FIRST_ONLY) getString(R.string.only_page_1) else getString(R.string.all_pages_count, item.totalPages)
             sb.append("${index + 1}. ${item.fileName} -> $pagesText\n")
         }
-        binding.txtSummary.text = if (sb.isNotEmpty()) sb.toString() else "Ningún archivo seleccionado"
+        binding.txtSummary.text = if (sb.isNotEmpty()) sb.toString() else getString(R.string.no_file_selected_short)
     }
 
     private fun processMerge(destinationUri: Uri) {
-        try {
-            val outputStream: OutputStream? = contentResolver.openOutputStream(destinationUri)
-            if (outputStream != null) {
-                val success = PdfMergerEngine.mergePdfs(this, pdfList, outputStream)
-                outputStream.close()
-                if (success) {
-                    Toast.makeText(this, "¡PDF unificado creado con éxito!", Toast.LENGTH_LONG).show()
-                } else {
-                    Toast.makeText(this, "Error al unificar PDFs", Toast.LENGTH_SHORT).show()
+        binding.progressLayout.visibility = View.VISIBLE
+        binding.btnMergePdf.isEnabled = false
+        binding.btnClearAll.isEnabled = false
+
+        lifecycleScope.launch(Dispatchers.IO) {
+            try {
+                val outputStream: OutputStream? = contentResolver.openOutputStream(destinationUri)
+                if (outputStream != null) {
+                    val success = PdfMergerEngine.mergePdfs(this@MainActivity, pdfList, outputStream)
+                    outputStream.close()
+                    withContext(Dispatchers.Main) {
+                        if (success) {
+                            Toast.makeText(this@MainActivity, getString(R.string.merge_success), Toast.LENGTH_LONG).show()
+                        } else {
+                            Toast.makeText(this@MainActivity, getString(R.string.merge_error), Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(this@MainActivity, getString(R.string.merge_error_with_msg, e.message), Toast.LENGTH_SHORT).show()
+                }
+            } finally {
+                withContext(Dispatchers.Main) {
+                    binding.progressLayout.visibility = View.GONE
+                    updateUi()
                 }
             }
-        } catch (e: Exception) {
-            e.printStackTrace()
-            Toast.makeText(this, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
         }
     }
 }

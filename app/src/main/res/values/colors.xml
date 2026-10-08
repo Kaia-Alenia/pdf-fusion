@@ -5,4 +5,18 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    
+    <color name="color_bg">#FFFFFF</color>
+    <color name="color_toolbar_bg">#FFFFFF</color>
+    <color name="color_text_primary">#1F2937</color>
+    <color name="color_text_secondary">#4B5563</color>
+    <color name="color_card_bg">#F3F4F6</color>
+    <color name="color_btn_clear_bg">#FEE2E2</color>
+    <color name="color_btn_clear_text">#DC2626</color>
+    <color name="color_btn_merge_bg">#2563EB</color>
+    <color name="color_btn_merge_text">#FFFFFF</color>
+    <color name="color_fab_bg">#1F2937</color>
+    <color name="color_fab_text">#FFFFFF</color>
+    <color name="color_overlay_bg">#E6FFFFFF</color>
+    <color name="color_progress_tint">#2563EB</color>
 </resources>

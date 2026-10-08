@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="color_bg">#121212</color>
+    <color name="color_toolbar_bg">#121212</color>
+    <color name="color_text_primary">#F9FAFB</color>
+    <color name="color_text_secondary">#9CA3AF</color>
+    <color name="color_card_bg">#1E1E1E</color>
+    <color name="color_btn_clear_bg">#451A1A</color>
+    <color name="color_btn_clear_text">#FCA5A5</color>
+    <color name="color_btn_merge_bg">#3B82F6</color>
+    <color name="color_btn_merge_text">#FFFFFF</color>
+    <color name="color_fab_bg">#3B82F6</color>
+    <color name="color_fab_text">#FFFFFF</color>
+    <color name="color_overlay_bg">#E6121212</color>
+    <color name="color_progress_tint">#3B82F6</color>
+</resources>

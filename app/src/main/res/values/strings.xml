@@ -1,3 +1,20 @@
 <resources>
-    <string name="app_name">Alenia PDF Fusion</string>
+    <string name="app_name">PDF-Fusion</string>
+    <string name="files_ready_zero">Files ready: 0</string>
+    <string name="no_file_selected">No file selected.\nUse the + button to add documents.</string>
+    <string name="btn_clear_all">Clear</string>
+    <string name="btn_merge">Merge</string>
+    <string name="btn_add">Add</string>
+    <string name="generating_pdf">Generating PDF...</string>
+    <string name="default_merged_filename">Merged_Documents.pdf</string>
+    <string name="file_default_name">File</string>
+    <string name="files_loaded_count">Loaded files: %1$d</string>
+    <string name="only_page_1">Only page 1</string>
+    <string name="all_pages_count">All (%1$d pages)</string>
+    <string name="no_file_selected_short">No file selected</string>
+    <string name="merge_success">PDF successfully merged!</string>
+    <string name="merge_error">Error merging PDF</string>
+    <string name="merge_error_with_msg">Error: %1$s</string>
+    <string name="tutorial_title">How to use PDF-Fusion</string>
+    <string name="tutorial_desc">1. Use the Add button to select the files. Supported formats: PDFs and Images (JPG, PNG, etc).\n2. Review your selected files in the list below.\n3. Tap Merge to create a single PDF file containing all your documents.\n4. Use the Clear button to start over.</string>
 </resources>

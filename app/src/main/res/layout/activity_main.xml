@@ -1,100 +1,160 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="20dp"
-    android:background="#090D16">
+    android:background="@color/color_bg">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Alenia PDF Fusion"
-        android:textColor="#FFFFFF"
-        android:textSize="24sp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Unificador Nativo para Android — 100% Offline"
-        android:textColor="#06B6D4"
-        android:textSize="12sp"
-        android:layout_marginBottom="24dp" />
-
-    <Button
-        android:id="@+id/btnSelectPdf"
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:text="Seleccionar Archivos PDF"
-        android:backgroundTint="#8B5CF6"
-        android:textColor="#FFFFFF"
-        android:textSize="16sp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/txtCount"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Archivos cargados: 0"
-        android:textColor="#94A3B8"
-        android:textSize="14sp"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="8dp" />
+        android:background="@color/color_toolbar_bg"
+        app:elevation="0dp">
 
-    <ScrollView
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:title="PDF-Fusion"
+            app:titleTextColor="@color/color_text_primary"
+            app:titleCentered="true">
+
+            <ImageButton
+                android:id="@+id/btnSelectPdf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginEnd="16dp"
+                android:padding="8dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@android:drawable/ic_input_add"
+                app:tint="@color/color_text_primary"
+                android:contentDescription="@string/btn_add" />
+
+        </com.google.android.material.appbar.MaterialToolbar>
+            
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <!-- Main Content -->
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="#1E293B"
-        android:padding="12dp">
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:padding="20dp"
+        android:clipToPadding="false"
+        android:paddingBottom="120dp">
 
-        <TextView
-            android:id="@+id/txtSummary"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Ningún archivo seleccionado"
-            android:textColor="#F8FAFC"
-            android:textSize="14sp"
-            android:lineSpacingExtra="6dp" />
+            android:orientation="vertical">
 
-    </ScrollView>
+            <ImageView
+                android:layout_width="96dp"
+                android:layout_height="96dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="24dp"
+                android:src="@mipmap/ic_launcher" />
 
+            <TextView
+                android:id="@+id/txtCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/files_ready_zero"
+                android:layout_gravity="center_horizontal"
+                android:textColor="@color/color_text_primary"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="16dp" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="24dp"
+                app:cardElevation="0dp"
+                app:cardBackgroundColor="@color/color_card_bg"
+                app:strokeWidth="0dp">
+
+                <TextView
+                    android:id="@+id/txtSummary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/no_file_selected"
+                    android:textColor="@color/color_text_secondary"
+                    android:textSize="16sp"
+                    android:lineSpacingExtra="8dp"
+                    android:padding="24dp"
+                    android:gravity="start" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="24dp"
+                android:gravity="center">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnClearAll"
+                    style="@style/Widget.Material3.Button.TonalButton"
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:layout_weight="1"
+                    android:text="@string/btn_clear_all"
+                    android:textColor="@color/color_btn_clear_text"
+                    app:backgroundTint="@color/color_btn_clear_bg"
+                    app:cornerRadius="20dp"
+                    android:layout_marginEnd="12dp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnMergePdf"
+                    style="@style/Widget.Material3.Button.ElevatedButton"
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:layout_weight="1.5"
+                    android:text="@string/btn_merge"
+                    android:textColor="@color/color_btn_merge_text"
+                    app:backgroundTint="@color/color_btn_merge_bg"
+                    app:cornerRadius="20dp"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+
+
+    <!-- Overlay de carga -->
     <LinearLayout
+        android:id="@+id/progressLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="16dp">
-
-        <Button
-            android:id="@+id/btnClearAll"
-            android:layout_width="0dp"
-            android:layout_height="54dp"
-            android:layout_weight="1"
-            android:text="Vaciar"
-            android:enabled="false"
-            android:backgroundTint="#ef4444"
-            android:layout_marginEnd="8dp" />
-
-        <Button
-            android:id="@+id/btnMergePdf"
-            android:layout_width="0dp"
-            android:layout_height="54dp"
-            android:layout_weight="2"
-            android:text="Unificar PDFs"
-            android:enabled="false"
-            android:backgroundTint="#6366F1"
-            android:textStyle="bold" />
-
+        android:layout_height="match_parent"
+        android:background="@color/color_overlay_bg"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:visibility="gone"
+        android:elevation="10dp"
+        android:clickable="true"
+        android:focusable="true">
+        
+        <ProgressBar
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:indeterminateTint="@color/color_progress_tint"/>
+            
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/generating_pdf"
+            android:textColor="@color/color_text_primary"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:layout_marginTop="20dp"/>
     </LinearLayout>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="GNU GPL v3 • Alenia Studios • contact.aleniastudios@gmail.com"
-        android:textColor="#64748B"
-        android:textSize="10sp"
-        android:gravity="center"
-        android:layout_marginTop="16dp" />
-
-</LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

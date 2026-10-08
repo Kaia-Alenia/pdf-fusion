@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">PDF-Fusion</string>
+    <string name="files_ready_zero">Archivos listos: 0</string>
+    <string name="no_file_selected">Ningún archivo seleccionado.\nUsa el botón + para agregar documentos.</string>
+    <string name="btn_clear_all">Vaciar</string>
+    <string name="btn_merge">Unificar</string>
+    <string name="btn_add">Agregar</string>
+    <string name="generating_pdf">Generando PDF...</string>
+    <string name="default_merged_filename">Documentos_Unificados.pdf</string>
+    <string name="file_default_name">Archivo</string>
+    <string name="files_loaded_count">Archivos cargados: %1$d</string>
+    <string name="only_page_1">Solo pág 1</string>
+    <string name="all_pages_count">Todas (%1$d págs)</string>
+    <string name="no_file_selected_short">Ningún archivo seleccionado</string>
+    <string name="merge_success">¡PDF unificado creado con éxito!</string>
+    <string name="merge_error">Error al unificar</string>
+    <string name="merge_error_with_msg">Error: %1$s</string>
+    <string name="tutorial_title">Cómo usar PDF-Fusion</string>
+    <string name="tutorial_desc">1. Usa el botón Agregar para seleccionar los archivos. Formatos soportados: Documentos PDF e Imágenes (JPG, PNG, etc).\n2. Revisa la lista de archivos seleccionados.\n3. Presiona Unificar para crear un solo archivo PDF con todos tus documentos.\n4. Usa el botón Vaciar para limpiar la lista y empezar de nuevo.</string>
+</resources>
