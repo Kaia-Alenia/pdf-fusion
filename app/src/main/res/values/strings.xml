@@ -11,6 +11,7 @@
     <string name="files_loaded_count">Loaded files: %1$d</string>
     <string name="only_page_1">Only page 1</string>
     <string name="all_pages_count">All (%1$d pages)</string>
+    <string name="btn_remove_file">Remove file</string>
     <string name="no_file_selected_short">No file selected</string>
     <string name="merge_success">PDF successfully merged!</string>
     <string name="merge_error">Error merging PDF</string>

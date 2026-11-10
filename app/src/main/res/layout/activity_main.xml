@@ -16,7 +16,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:title="PDF-Fusion"
+            app:title="@string/app_name"
             app:titleTextColor="@color/color_text_primary"
             app:titleCentered="true">
 
@@ -77,16 +77,31 @@
                 app:cardBackgroundColor="@color/color_card_bg"
                 app:strokeWidth="0dp">
 
-                <TextView
-                    android:id="@+id/txtSummary"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/no_file_selected"
-                    android:textColor="@color/color_text_secondary"
-                    android:textSize="16sp"
-                    android:lineSpacingExtra="8dp"
-                    android:padding="24dp"
-                    android:gravity="start" />
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/txtSummary"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/no_file_selected"
+                        android:textColor="@color/color_text_secondary"
+                        android:textSize="16sp"
+                        android:lineSpacingExtra="8dp"
+                        android:padding="24dp"
+                        android:gravity="start" />
+
+                    <LinearLayout
+                        android:id="@+id/fileListContainer"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp"
+                        android:visibility="gone" />
+
+                </LinearLayout>
 
             </com.google.android.material.card.MaterialCardView>
 
@@ -103,6 +118,7 @@
                     android:layout_width="0dp"
                     android:layout_height="60dp"
                     android:layout_weight="1"
+                    android:enabled="false"
                     android:text="@string/btn_clear_all"
                     android:textColor="@color/color_btn_clear_text"
                     app:backgroundTint="@color/color_btn_clear_bg"
@@ -115,6 +131,7 @@
                     android:layout_width="0dp"
                     android:layout_height="60dp"
                     android:layout_weight="1.5"
+                    android:enabled="false"
                     android:text="@string/btn_merge"
                     android:textColor="@color/color_btn_merge_text"
                     app:backgroundTint="@color/color_btn_merge_bg"
@@ -129,7 +146,7 @@
 
 
 
-    <!-- Overlay de carga -->
+    <!-- Loading overlay -->
     <LinearLayout
         android:id="@+id/progressLayout"
         android:layout_width="match_parent"

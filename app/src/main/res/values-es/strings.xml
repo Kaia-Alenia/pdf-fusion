@@ -11,6 +11,7 @@
     <string name="files_loaded_count">Archivos cargados: %1$d</string>
     <string name="only_page_1">Solo pág 1</string>
     <string name="all_pages_count">Todas (%1$d págs)</string>
+    <string name="btn_remove_file">Quitar archivo</string>
     <string name="no_file_selected_short">Ningún archivo seleccionado</string>
     <string name="merge_success">¡PDF unificado creado con éxito!</string>
     <string name="merge_error">Error al unificar</string>
